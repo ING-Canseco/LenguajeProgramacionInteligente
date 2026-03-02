@@ -43,11 +43,9 @@ class Agente:
         fx, fy = vertices[0]
         pygame.draw.circle(screen, color_frente, (int(fx), int(fy)), 10)
 
-    # ==== NUEVOS MÉTODOS PARA PREPARACIÓN IA ====
+    # === NUEVOS MÉTODOS PARA PREPARACIÓN IA ===
     def actualizar(self, dt=1/60):
-        """Método preparado para actualizaciones autónomas en futuras sesiones (IA).
-        Aquí se podrá poner lógica inteligente (máquinas de estados, pathfinding, etc.).
-        """
+        """Método preparado para actualizaciones autónomas en futuras sesiones (IA)."""
         pass
 
     def set_direccion(self, nuevo_angulo):
@@ -60,3 +58,36 @@ class Agente:
         fx = self.x + self.tamano * math.cos(rad)
         fy = self.y - self.tamano * math.sin(rad)
         return fx, fy
+
+    # ==== NUEVO: REBOTE EN BORDES ====
+    def aplicar_rebote(self, ancho, alto):
+        """
+        Aplica rebote real en los bordes de la pantalla.
+        - Invierte la dirección del agente usando reflexión de ángulo.
+        - Mantiene el agente dentro de los límites.
+        """
+        margen = self.tamano * 1.2
+        reboto = False
+
+        # Rebote en paredes verticales (izquierda y derecha)
+        if self.x < margen:
+            self.x = margen
+            self.angulo = 180 - self.angulo
+            reboto = True
+        elif self.x > ancho - margen:
+            self.x = ancho - margen
+            self.angulo = 180 - self.angulo
+            reboto = True
+
+        # Rebote en paredes horizontales (arriba y abajo)
+        if self.y < margen:
+            self.y = margen
+            self.angulo = -self.angulo
+            reboto = True
+        elif self.y > alto - margen:
+            self.y = alto - margen
+            self.angulo = -self.angulo
+            reboto = True
+
+        if reboto:
+            self.angulo %= 360

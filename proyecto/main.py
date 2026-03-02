@@ -4,12 +4,12 @@ from agente import Agente
 
 # Inicialización
 pygame.init()
-pygame.key.set_repeat(1, 50)  # Hace que mantener las teclas sea más fluido
+pygame.key.set_repeat(1, 50)  # Movimiento más fluido al mantener teclas
 
 ANCHO = 800
 ALTO = 600
 screen = pygame.display.set_mode((ANCHO, ALTO))
-pygame.display.set_caption("Agente Móvil con Rotación - Sesión 2 (Preparado para IA)")
+pygame.display.set_caption("Agente Móvil con Rotación y Rebote - Sesión 2 (Preparado para IA)")
 
 clock = pygame.time.Clock()
 
@@ -28,8 +28,7 @@ while running:
 
     keys = pygame.key.get_pressed()
 
-    # === CONTROL POR TECLADO (Sesión 2) ===
-    # En sesiones futuras se reemplazará por: agente.actualizar() + IA
+    # Movimiento por teclado
     if keys[pygame.K_w] or keys[pygame.K_UP]:
         rad = math.radians(agente.angulo)
         agente.x += VELOCIDAD_MOVIMIENTO * math.cos(rad)
@@ -49,10 +48,8 @@ while running:
         agente.angulo -= VELOCIDAD_ROTACION
         agente.angulo %= 360
 
-    # Limitar posición
-    margen = agente.tamano * 1.2
-    agente.x = max(margen, min(agente.x, ANCHO - margen))
-    agente.y = max(margen, min(agente.y, ALTO - margen))
+    # ==== REBOTE EN BORDES (usando la clase) ====
+    agente.aplicar_rebote(ANCHO, ALTO)
 
     # Dibujar
     screen.fill((0, 0, 0))

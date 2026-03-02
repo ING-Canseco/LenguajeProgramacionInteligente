@@ -1,4 +1,4 @@
-# Sesión 2 - Agente Móvil con Rotación y Preparación para IA
+# Sesión 2 y 3 - Agente Móvil con Rotación y Rebote en Bordes
 
 Implementación completa del agente triangular controlado por teclado usando **Pygame** y la clase `Agente`.
 
@@ -6,9 +6,9 @@ Implementación completa del agente triangular controlado por teclado usando **P
 - Triángulo isósceles rotado correctamente alrededor de su centro
 - Movimiento hacia adelante/atrás relativo a su orientación
 - Rotación suave izquierda/derecha
-- Límites de pantalla (no sale del área)
+- **Rebote real en los 4 bordes** con reflexión correcta del ángulo (nuevo)
 - Indicador visual de dirección (círculo rojo en la proa)
-- **Preparación para IA** (nuevos métodos listos para comportamientos inteligentes)
+- **Preparación para IA** (métodos listos para comportamientos inteligentes)
 
 ## Controles
 - **W / ↑** → Avanzar  
@@ -16,21 +16,16 @@ Implementación completa del agente triangular controlado por teclado usando **P
 - **A / ←** → Girar izquierda  
 - **D / →** → Girar derecha  
 
+## Rebote en bordes
+Se implementó el método `aplicar_rebote()` dentro de la clase `Agente`.  
+Al chocar contra cualquier borde, el agente **refleja su ángulo** correctamente (como en billar) y rebota de forma natural.
+
 ## Estructura del proyecto
-- `agente.py` → Clase `Agente` (atributos + dibujar + métodos IA)
-- `main.py`  → Bucle principal y control por teclado
+- `agente.py` → Clase `Agente` (con rebote y métodos IA)
+- `main.py`  → Bucle principal
 
-## Preparación para IA (15 puntos)
-Se agregaron los siguientes métodos en la clase `Agente`:
-- `actualizar(self, dt)` → Listo para lógica autónoma
-- `set_direccion(nuevo_angulo)` → Control externo por IA
-- `get_frente()` → Posición de la punta (para sensores/colisiones)
-
-Esto permite reemplazar fácilmente el teclado por cualquier comportamiento inteligente en sesiones futuras.
-
-## Requisitos
-- Python 3.x
-- Pygame (`pip install pygame`)
+## Preparación para IA
+Métodos agregados: `actualizar()`, `set_direccion()` y `get_frente()`.
 
 ## Cómo ejecutar
 ```bash
