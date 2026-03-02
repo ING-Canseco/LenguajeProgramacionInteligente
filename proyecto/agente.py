@@ -42,3 +42,21 @@ class Agente:
         # Círculo rojo en el frente
         fx, fy = vertices[0]
         pygame.draw.circle(screen, color_frente, (int(fx), int(fy)), 10)
+
+    # ==== NUEVOS MÉTODOS PARA PREPARACIÓN IA ====
+    def actualizar(self, dt=1/60):
+        """Método preparado para actualizaciones autónomas en futuras sesiones (IA).
+        Aquí se podrá poner lógica inteligente (máquinas de estados, pathfinding, etc.).
+        """
+        pass
+
+    def set_direccion(self, nuevo_angulo):
+        """Permite cambiar la orientación del agente desde fuera (útil para IA)."""
+        self.angulo = nuevo_angulo % 360
+
+    def get_frente(self):
+        """Devuelve la posición exacta de la punta (para sensores o colisiones futuras)."""
+        rad = math.radians(self.angulo)
+        fx = self.x + self.tamano * math.cos(rad)
+        fy = self.y - self.tamano * math.sin(rad)
+        return fx, fy

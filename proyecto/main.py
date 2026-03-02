@@ -1,12 +1,16 @@
 import pygame
+import math
 from agente import Agente
 
 # Inicialización
 pygame.init()
+pygame.key.set_repeat(1, 50)  # Hace que mantener las teclas sea más fluido
+
 ANCHO = 800
 ALTO = 600
 screen = pygame.display.set_mode((ANCHO, ALTO))
-pygame.display.set_caption("Agente Móvil con Rotación y Límites")
+pygame.display.set_caption("Agente Móvil con Rotación - Sesión 2 (Preparado para IA)")
+
 clock = pygame.time.Clock()
 
 # Crear agente
@@ -24,7 +28,8 @@ while running:
 
     keys = pygame.key.get_pressed()
 
-    # Movimiento
+    # === CONTROL POR TECLADO (Sesión 2) ===
+    # En sesiones futuras se reemplazará por: agente.actualizar() + IA
     if keys[pygame.K_w] or keys[pygame.K_UP]:
         rad = math.radians(agente.angulo)
         agente.x += VELOCIDAD_MOVIMIENTO * math.cos(rad)
@@ -44,13 +49,13 @@ while running:
         agente.angulo -= VELOCIDAD_ROTACION
         agente.angulo %= 360
 
-    # Limitar posición (simple y efectivo)
-    margen = agente.tamano * 1.2  # margen aproximado para que no se salga
+    # Limitar posición
+    margen = agente.tamano * 1.2
     agente.x = max(margen, min(agente.x, ANCHO - margen))
     agente.y = max(margen, min(agente.y, ALTO - margen))
 
     # Dibujar
-    screen.fill((0, 0, 0))  # fondo negro
+    screen.fill((0, 0, 0))
     agente.dibujar(screen)
 
     pygame.display.flip()
