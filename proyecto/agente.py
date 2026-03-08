@@ -24,7 +24,7 @@ class Agente:
     def mover(self, dt: float, teclas):
         """
         Mueve al agente usando vector normalizado y delta time.
-        dt → tiempo transcurrido en segundos (para movimiento independiente del framerate)
+        dt → tiempo transcurrido en segundos
         """
         self.actualizar_direccion()
 
@@ -35,9 +35,9 @@ class Agente:
         if teclas[pygame.K_s] or teclas[pygame.K_DOWN]:
             self.pos -= self.vel_vector * self.velocidad * dt
 
-        # Rotación (no depende de dt, se siente más natural en grados/segundo fijo)
+        # Rotación (grados por segundo)
         if teclas[pygame.K_a] or teclas[pygame.K_LEFT]:
-            self.angulo += 120.0 * dt          # ~120° por segundo
+            self.angulo += 120.0 * dt
         if teclas[pygame.K_d] or teclas[pygame.K_RIGHT]:
             self.angulo -= 120.0 * dt
 
@@ -76,11 +76,13 @@ class Agente:
     def dibujar(self, screen, color_base=(0, 180, 0), color_frente=(255, 50, 50)):
         """
         Dibuja el triángulo rotado alrededor de su centro.
+        Versión corregida: convierte explícitamente a float nativo para evitar
+        problemas de compatibilidad con NumPy en pygame.draw.polygon
         """
         vertices_locales = [
             (0, -self.tamano),                     # frente
-            (-self.tamano / 2, self.tamano / 2),   # izq
-            (self.tamano / 2, self.tamano / 2)     # der
+            (-self.tamano / 2, self.tamano / 2),   # izquierda
+            (self.tamano / 2, self.tamano / 2)     # derecha
         ]
 
         rad = math.radians(self.angulo)
@@ -89,18 +91,25 @@ class Agente:
 
         vertices = []
         for lx, ly in vertices_locales:
+            # Rotación
             rx = lx * cos_a - ly * sin_a
             ry = lx * sin_a + ly * cos_a
-            vertices.append((self.pos[0] + rx, self.pos[1] + ry))
+            # Suma posición + conversión explícita a float nativo de Python
+            px = float(self.pos[0] + rx)
+            py = float(self.pos[1] + ry)
+            vertices.append((px, py))
 
+        # Ahora sí es compatible con pygame
         pygame.draw.polygon(screen, color_base, vertices)
         pygame.draw.polygon(screen, (255, 255, 255), vertices, width=3)
 
+        # Círculo en la punta (frente)
         fx, fy = vertices[0]
         pygame.draw.circle(screen, color_frente, (int(fx), int(fy)), 10)
 
-    # Métodos para futura IA
+    # Métodos preparados para IA futura
     def actualizar(self, dt=1/60):
+        """Placeholder para comportamientos autónomos."""
         pass
 
     def set_direccion(self, nuevo_angulo):
