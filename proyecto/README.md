@@ -27,6 +27,21 @@ Al chocar contra cualquier borde, el agente **refleja su ángulo** correctamente
 ## Preparación para IA
 Métodos agregados: `actualizar()`, `set_direccion()` y `get_frente()`.
 
+# Sesión 4 - Movimiento vectorial suave con NumPy
+
+## Características principales
+- Movimiento **constante** en cualquier dirección (incluidas diagonales) gracias a vectores unitarios y delta time
+- Uso de **NumPy** para posición, dirección y cálculos vectorizados
+- Velocidad independiente del framerate (suave en cualquier equipo)
+- Rebote real en bordes (refleja ángulo correctamente)
+- Preparado para comportamientos IA (métodos `actualizar`, `set_direccion`, `get_frente`)
+
+## Ventajas de usar vectores y NumPy en esta sesión
+- Dirección siempre normalizada → velocidad constante (no más rápido en diagonal)
+- Cálculos vectorizados → código más limpio y potencialmente más rápido
+- Posición como `np.array` → facilita futuras operaciones (rotaciones, colisiones, etc.)
+- `dt` (delta time) → movimiento frame-rate independiente
+
 ## Cómo ejecutar
 ```bash
 cd proyecto
